@@ -5,7 +5,7 @@ class MicroMouseApp
 public:
 	MicroMouseApp();
 	{
-
+		//Hello and welcome
 	}
 	void run();
 	{
