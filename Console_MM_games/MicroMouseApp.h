@@ -18,12 +18,13 @@ public:
 		}
 	}
 
+
+
 	void createMaze()
 	{
 		std::cout << "Creating maze...\n"	;
-		Maze drawMaze0();
-
-
+		Maze MazeThe;
+		std::cout << MazeThe << std::endl;
 	}
 
 	void solveMaze()

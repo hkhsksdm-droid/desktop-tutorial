@@ -1,10 +1,5 @@
 ﻿  Console_MM_games.cpp
-C:\hw\Console_MM_games\Console_MM_games\MicroMouseApp.h(24,8): warning C4930: 'Maze drawMaze0(void)': prototyped function not called (was a variable definition intended?)
-  (compiling source file 'Console_MM_games.cpp')
-  
+  Maze.cpp
   MicroMouseApp.cpp
-C:\hw\Console_MM_games\Console_MM_games\MicroMouseApp.h(24,8): warning C4930: 'Maze drawMaze0(void)': prototyped function not called (was a variable definition intended?)
-  (compiling source file 'MicroMouseApp.cpp')
-  
   Generating Code...
   Console_MM_games.vcxproj -> C:\hw\Console_MM_games\x64\Debug\Console_MM_games.exe
