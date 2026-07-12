@@ -15,7 +15,7 @@ public:
 	
 	void drawMaze()
 	{
-		drawMaze0();
+		//drawMaze0();
 
 	}
 
@@ -83,7 +83,7 @@ public:
 	}
 };
 
-	inline std::ostream& operator << (std::ostream& os, const Maze& maze) {
+	inline std::ostream& operator << (std::ostream& os,  Maze& maze) {
 		maze.drawMaze0(os);
 
 		
