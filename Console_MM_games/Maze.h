@@ -1,4 +1,4 @@
-	#pragma once
+
 #pragma once
 #include <iostream>
 #include "MazeTreeDS.h"
@@ -7,11 +7,8 @@
 class Maze
 {
 public:
-	Maze()
-	{
-
-	}
-
+	
+	MazeTreeDS t;
 	
 	void drawMaze()
 	{
@@ -21,86 +18,61 @@ public:
 
 	friend std::ostream& operator<<(std::ostream& os, const Maze& maze);
 	
-	vector <vector<int>> maze = {
-		{ 1, 0, 1, 1, 1 },
-		{ 1, 0, 1, 0, 1 },
-		{ 1, 1, 1, 0, 1 },
-		{ 0, 0, 0, 0, 1 },
-		{ 1, 1, 1, 0, 1 }
+	vector<vector<int>> myMap = {
+	{ 6, 10, 12 },
+	{ 5,  0,  5 },
+	{ 3, 10,  9 }
 	};
 
 	 // int[] should be turn into GridBoxType Data type 
-	std::vector<int> PrintMaze(const std::vector<int>& maze)
+	//std::vector<int> PrintMaze(const std::vector<int>& maze)
+	//{
+	//	std::vector<int> result;
+
+	//	for (auto n : maze)
+	//	{
+	//		// 1. Print the current number
+	//		std::cout << n << " ";
+
+	//		// 2. Add it to our return vector (if you need to pass data back)
+	//		result.push_back(n);
+	//	}
+	//	std::cout << std::endl;
+
+	//	return result; // Matches the vector<int> return type
+	//};
+
+	Maze()
 	{
-		std::vector<int> result;
-
-		for (auto n : maze)
-		{
-			// 1. Print the current number
-			std::cout << n << " ";
-
-			// 2. Add it to our return vector (if you need to pass data back)
-			result.push_back(n);
-		}
-		std::cout << std::endl;
-
-		return result; // Matches the vector<int> return type
-	};
-
-
-
-	void drawMaze0(std::ostream& os)
-	{
-		MazeTreeDS t;
-		int nums[] = { 5, 1, 4, 2, 3, 6, 10, 7, 9, 8 };
-		for (auto n : nums)
-			t.insert(n);
-
-		// IF USING OPTION 1 (Vector):
-		std::vector<int> numsVec = { 5, 1, 4, 2, 3, 6, 10, 7, 9, 8 };
-		std::vector<int> printedData = PrintMaze(numsVec);
-
-		// IF USING OPTION 2 (Raw Array):
-		//std::vector<int> printedData = PrintMaze(nums, 10); // Pass array and its size (10)
-		
-		cout << "Min: " << t.min() << endl;
-		cout << "Max: " << t.max() << endl;
-
-		cout << "4 exists? " << t.exists(4) << endl;
-		cout << "11 exists? " << t.exists(11) << endl;
-
-		cout << "PreOrder: ";
-		t.traversePreOrder();
-		cout << endl;
-
-		cout << "PostOrder: ";
-		t.traversePostOrder();
-		cout << endl;
-
-		cout << "InOrder: ";
-		t.traverseInOrder();
-		cout << endl;
+		// Build the physical pointers automatically when the Maze is created!
+		t.buildGrid(myMap);
 	}
-};
 
-	inline std::ostream& operator << (std::ostream& os,  Maze& maze) {
-		maze.drawMaze0(os);
+	
+	friend std::ostream& operator << (std::ostream& os,  Maze& maze) {
+		//maze.drawMaze0(os);
 
 		
-		// Loop through rows and columns of your private grid matrix
-		//for (size_t y = 0; y < maze.grid.size(); ++y) {
-		//	for (size_t x = 0; x < maze.grid[y].size(); ++x) {
+		// Loop through rows (y) and columns (x) of the bitmask map
+		for (size_t y = 0; y < maze.myMap.size(); ++y) {
+			for (size_t x = 0; x < maze.myMap[y].size(); ++x) {
 
-		//		// Customize what prints based on your data values
-		//		if (maze.grid[y][x] == 1) {
-		//			os << "██"; // Wall character
-		//		}
-		//		else {
-		//			os << "  "; // Empty path space
-		//		}
-		//	}
-		//	os << "\n"; // New line at the end of every row
-		//}
+				// If it is exactly 0, it's a solid wall.
+				if (maze.myMap[y][x] == 0) {
+					os << 
+						"+----+"
+						"|    |"	
+						"+----+ "
+						;
+				}
+				// Otherwise (if it's 1-15), it's a walkable path room!
+				else {
+					os << "00";
+				}
+			}
+			os << "\n"; // New line at the end of every row
+		}
 		return os; // Return the stream so you can chain commands together
 	}
+};
 

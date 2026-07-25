@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include <stdio.h>
+#include <conio.h>// for _getch() window only 
 #include "Maze.h"
 class MicroMouseApp
 {
@@ -15,6 +17,7 @@ public:
 		{
 			std::cout << "Micro mouse app running...\n";
 			createMaze();
+			ReadKey();
 		}
 	}
 
@@ -22,8 +25,8 @@ public:
 
 	void createMaze()
 	{
-		std::cout << "Creating maze...\n"	;
 		Maze MazeThe;
+		std::cout << "Creating maze...\n"	;
 		std::cout << MazeThe << std::endl;
 	}
 
@@ -60,7 +63,15 @@ public:
 		std::cout << "Prompting user for input...\n";
 	}
 
+	void ReadKey() {
+		std::cout << "Press any key to continue..." << std::endl;
 
+		// Reads a single character instantly
+		char key = _getch();
+
+		std::cout << "\nYou pressed: " << key << std::endl;
+		std::cout << std::endl;
+	}
 };
 
 

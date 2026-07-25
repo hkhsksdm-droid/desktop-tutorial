@@ -1,38 +1,101 @@
 #include <iostream>
 #include <string>
 /*
-box 1: Dead end 
-box 1:
-box 1:
-box 1:
-box 1:
-box 1:
-box 1:
-box 1:
-box 1:
+		Top = 1
+		 +----+
+Left = 8 |    | Right = 2
+		 +----+
+		Bottom = 4
+
+
+
+			box 0: Start
+
++----+
+|    |	0
++----+
+
+            box 1: Dead end 
++----+
+     |	8
++----+
+
+	+-  -+
+	|    |	1
+	+----+
+
+		+----+
+		|		2
+		+----+
+
+			+----+
+			|    |	4
+			+-  -+
+
+            box 2: 2 way path
++-  -+s
+|    |	5
++-  -+
+
+	+-  -+
+	     |	9
+	+----+
+
+		+-  -+
+		|		3
+		+----+
+
+			+----+
+			|		6
+			+-  -+
+
+				+----+
+				     |	12
+				+-  -+
+					+----+
+							10
+					+----+
+
+			box 3: 3 way path
++----+
+		14
++-  -+
+
+	+-  -+
+		 |	13
+	+-  -+
+
+		+-  -+
+		|		7
+		+-  -+
+
+			+-  -+
+					11
+			+----+
+
+			box 4: 4 way path
+
++-  -+
+		15
++-  -+
+
+
 */
-class GridBoxType
-{
+class Node {
+
 public:
-	
-	class Box1;
-	Box1* root = nullptr;
-	
-	class Box1 {
-
-	public:
-		//there should be an orginating note but also have many
-		// other notes that the current note can go to 
-		Box1* Before;
-		Box1* right;
-		Node(int value, Node* left = nullptr, Node* right = nullptr) {
-			this->value = value;
-			this->left = left;
-			this->right = right;
-		}
+	int BlockID;
+	int boxTypeID;
+	Node* left;
+	Node* right;
+	Node* top;
+	Node* bottom;
+	Node(int BlockID, int blockTypeID, Node* left = nullptr, Node* right = nullptr, Node* top = nullptr, Node* bottom = nullptr) {
+		this->BlockID = BlockID;
+		this->boxTypeID = blockTypeID;
+		this->left = left;
+		this->right = right;
+		this->top = top;
+		this->bottom = bottom;
+	}
 };
-
-	struct GridBoxType
-	{
-		
-	};

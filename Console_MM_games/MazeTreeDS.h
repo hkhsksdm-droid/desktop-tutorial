@@ -5,68 +5,83 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
+#include "GridBoxType.h"
+
 	using namespace std;
 
 	class MazeTreeDS
 	{
 	public:
-		class Node;
+
 		Node* root = nullptr;
+		
 
-		class Node {
+		void linkHorizontal(Node* leftRoom, Node* rightRoom) {
+			if (leftRoom != nullptr) leftRoom->right = rightRoom;
+			if (rightRoom != nullptr) rightRoom->left = leftRoom;
+		}
 
-		public:
-			int value;
-			Node* left;
-			Node* right;
-			Node(int value, Node* left = nullptr, Node* right = nullptr) {
-				this->value = value;
-				this->left = left;
-				this->right = right;
+		void linkVertical(Node* topRoom, Node* bottomRoom) {
+			if (topRoom != nullptr) topRoom->bottom = bottomRoom;
+			if (bottomRoom != nullptr) bottomRoom->top = topRoom;
+		}
+
+		void buildGrid(const vector<vector<int>>& blueprint) {
+			int rows = blueprint.size();
+			int cols = blueprint[0].size();
+
+			// 1. Create a 2D vector (Master Grid) to temporarily hold our pointers
+			vector<vector<Node*>> grid(rows, vector<Node*>(cols));
+
+			for (int r = 0; r < rows; r++) {
+				for (int c = 0; c < cols; c++) {
+					// We give the Node its unique ID, AND its boxTypeID from your map!
+					grid[r][c] = new Node((r * 10) + c, blueprint[r][c]);
+				}
 			}
-		};
 
-		void insert(Node*& node, int value)
-		{
-			//base case of recursion
-			if (node == nullptr) {
-				node = new Node(value);
-				return;
+			// BITMASK RULES:
+			// Top = 1, Right = 2, Bottom = 4, Left = 8
+
+			for (int r = 0; r < rows; r++) {
+				for (int c = 0; c < cols; c++) {
+
+					int currentBox = blueprint[r][c];
+
+					// Link East (Right)
+					if (c < cols - 1) {
+						int eastBox = blueprint[r][c + 1];
+
+						// Rule: Current box MUST have a Right exit (2) 
+						// AND the East box MUST have a Left exit (8)
+						if ((currentBox & 2) != 0 && (eastBox & 8) != 0) {
+							linkHorizontal(grid[r][c], grid[r][c + 1]);
+						}
+					}
+
+					// Link South (Bottom)
+					if (r < rows - 1) {
+						int southBox = blueprint[r + 1][c];
+
+						// Rule: Current box MUST have a Bottom exit (4) 
+						// AND the South box MUST have a Top exit (1)
+						if ((currentBox & 4) != 0 && (southBox & 1) != 0) {
+							linkVertical(grid[r][c], grid[r + 1][c]);
+						}
+					}
+
+				}
 			}
-			//ignore duplicates
-			if (node->value == value) return;
-
-			//
-			if (value < node->value)
-				insert(node->left, value);
-			else
-				insert(node->right, value);
-
-
-		}
-
-		int min(Node* node) {
-			if (node == nullptr) throw exception("Empty tree");
-			if (node->left == nullptr) return node->value;
-			return min(node->left);
-		}
-
-		int max(Node* node) {
-			if (node == nullptr) throw exception("Empty tree");
-			if (node->right == nullptr) return node->value;
-			return max(node->right);
+			root = grid[0][0];
 		}
 
 
-		void traverseInOrder(Node* node) {
-			if (node == nullptr) return;
-			traverseInOrder(node->left);
-			cout << node->value << " ";
-			traverseInOrder(node->right);
-		}
+		
+
 		void traversePreOrder(Node* node) {
 			if (node == nullptr) return;
-			cout << node->value << " ";
+			cout << node->BlockID << " ";
 			traversePreOrder(node->left);
 			traversePreOrder(node->right);
 		}
@@ -74,56 +89,25 @@
 			if (node == nullptr) return;
 			traversePostOrder(node->left);
 			traversePostOrder(node->right);
-			cout << node->value << " ";
+			cout << node->BlockID << " ";
 		}
 
 
-		bool exists(Node* node, int value) {
+		bool exists(Node* node, int BlockID) {
 			//not found base case
 			if (node == nullptr) return false;
 			//found base case
-			if (node->value == value) return true;
+			if (node->BlockID == BlockID) return true;
 			//recurse: continue searching left or right subtree
-			if (value < node->value)
-				return exists(node->left, value);
+			if (BlockID < node->BlockID)
+				return exists(node->left, BlockID);
 			else
-				return exists(node->right, value);
+				return exists(node->right, BlockID);
 		}
 
 	public:
-		void insert(int value) { insert(root, value); }
-		int min() { return min(root); }
-		int max() { return max(root); }
-		void traverseInOrder() { traverseInOrder(root); }
+		
 		void traversePreOrder() { traversePreOrder(root); }
 		void traversePostOrder() { traversePostOrder(root); }
-		bool exists(int value) { return exists(root, value); }
+		bool exists(int BlockID) { return exists(root, BlockID); }
 	};
-
-
-//
-//int main()
-//	{
-//		MazeTreeDS t;
-//		int nums[] = { 5, 1, 4, 2, 3, 6, 10, 7, 9, 8 };
-//		for (auto n : nums)
-//			t.insert(n);
-//
-//		cout << "Min: " << t.min() << endl;
-//		cout << "Max: " << t.max() << endl;
-//
-//		cout << "4 exists? " << t.exists(4) << endl;
-//		cout << "11 exists? " << t.exists(11) << endl;
-//
-//		cout << "PreOrder: ";
-//		t.traversePreOrder();
-//		cout << endl;
-//
-//		cout << "PostOrder: ";
-//		t.traversePostOrder();
-//		cout << endl;
-//
-//		cout << "InOrder: ";
-//		t.traverseInOrder();
-//		cout << endl;
-//	}
