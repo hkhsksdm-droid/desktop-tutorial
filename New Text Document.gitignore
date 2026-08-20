@@ -1,0 +1,32 @@
+# Visual Studio workspace and user settings
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+
+# Build outputs (Binaries and intermediate files)
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+build/
+
+# Visual C++ specific caches and debug files
+*.VC.db
+*.opendb
+*.sdf
+*.ilk
+*.pdb
+*.ipdb
+*.iobj
+*.ncb
+*.cachefile
+
+# Test results and logs
+TestResults/
+*.log
+*.tmp
+*.trx

@@ -9,7 +9,7 @@ Left = 8 |    | Right = 2
 
 
 
-			box 0: Start
+			box 0: Block
 
 +----+
 |    |	0
@@ -86,11 +86,12 @@ class Node {
 public:
 	int BlockID;
 	int boxTypeID;
+	bool isStar = false;
 	Node* left;
 	Node* right;
 	Node* top;
 	Node* bottom;
-	Node(int BlockID, int blockTypeID, Node* left = nullptr, Node* right = nullptr, Node* top = nullptr, Node* bottom = nullptr) {
+	Node(int BlockID, int blockTypeID, bool isStar = false, Node* left = nullptr, Node* right = nullptr, Node* top = nullptr, Node* bottom = nullptr) {
 		this->BlockID = BlockID;
 		this->boxTypeID = blockTypeID;
 		this->left = left;
