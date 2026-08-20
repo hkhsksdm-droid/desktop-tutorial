@@ -49,30 +49,54 @@ public:
 	}
 
 	
-	friend std::ostream& operator << (std::ostream& os,  Maze& maze) {
-		//maze.drawMaze0(os);
+    friend std::ostream& operator << (std::ostream& os, Maze& maze) {
+        // Loop through rows (y)
+        for (size_t y = 0; y < maze.myMap.size(); ++y) {
 
-		
-		// Loop through rows (y) and columns (x) of the bitmask map
-		for (size_t y = 0; y < maze.myMap.size(); ++y) {
-			for (size_t x = 0; x < maze.myMap[y].size(); ++x) {
+            // --- 1. PRINT THE TOP WALLS OF THE ENTIRE ROW ---
+            for (size_t x = 0; x < maze.myMap[y].size(); ++x) {
+                os << "+"; // Corner pillar
 
-				// If it is exactly 0, it's a solid wall.
-				if (maze.myMap[y][x] == 0) {
-					os << 
-						"+----+"
-						"|    |"	
-						"+----+ "
-						;
-				}
-				// Otherwise (if it's 1-15), it's a walkable path room!
-				else {
-					os << "00";
-				}
-			}
-			os << "\n"; // New line at the end of every row
-		}
-		return os; // Return the stream so you can chain commands together
-	}
+                int cell = maze.myMap[y][x];
+                // If bit 1 (Top) is 0, draw a wall. Otherwise, leave it open for a path.
+                if ((cell & 1) == 0) os << "---";
+                else os << "   ";
+            }
+            os << "+\n"; // Cap off the row with a final corner and drop to the next line
+
+            // --- 2. PRINT THE LEFT WALLS AND INSIDE ROOMS ---
+            for (size_t x = 0; x < maze.myMap[y].size(); ++x) {
+                int cell = maze.myMap[y][x];
+
+                // If bit 8 (Left) is 0, draw a wall.
+                if ((cell & 8) == 0) os << "|";
+                else os << " ";
+
+                os << "   "; // 3 spaces for the inside of the room
+            }
+
+            // Print the final Right wall for the very last room in the row
+            int lastCell = maze.myMap[y].back();
+            if ((lastCell & 2) == 0) os << "|\n";
+            else os << " \n";
+        }
+
+        // --- 3. PRINT THE VERY BOTTOM FLOOR OF THE MAZE ---
+        size_t lastY = maze.myMap.size() - 1;
+        for (size_t x = 0; x < maze.myMap[lastY].size(); ++x) {
+            os << "+";
+            int cell = maze.myMap[lastY][x];
+
+            // If bit 4 (Bottom) is 0, draw a wall.
+            if ((cell & 4) == 0) os << "---";
+            else os << "   ";
+        }
+        os << "+\n"; // The final bottom-right corner
+
+        return os;
+    }
 };
-
+//  1 0 1 0   (This is the room : Decimal 10)
+//& 1 0 0 0   (This is the mask : Decimal 8, checking for the Left door)
+//-------- -
+//= 1 0 0 0   (The result is Decimal 8!)

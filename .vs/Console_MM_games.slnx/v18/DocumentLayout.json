@@ -3,20 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\WIN11\\Documents\\WorkSpace\\desktop-tutorial\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{41D52397-8383-4481-A147-65D2CCB4A06D}|Console_MM_games\\Console_MM_games.vcxproj|C:\\Users\\WIN11\\Documents\\WorkSpace\\desktop-tutorial\\Console_MM_games\\Console_MM_games.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{41D52397-8383-4481-A147-65D2CCB4A06D}|Console_MM_games\\Console_MM_games.vcxproj|solutionrelative:Console_MM_games\\Console_MM_games.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{41D52397-8383-4481-A147-65D2CCB4A06D}|Console_MM_games\\Console_MM_games.vcxproj|C:\\Users\\WIN11\\Documents\\WorkSpace\\desktop-tutorial\\Console_MM_games\\MazeTreeDS.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{41D52397-8383-4481-A147-65D2CCB4A06D}|Console_MM_games\\Console_MM_games.vcxproj|solutionrelative:Console_MM_games\\MazeTreeDS.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{41D52397-8383-4481-A147-65D2CCB4A06D}|Console_MM_games\\Console_MM_games.vcxproj|C:\\Users\\WIN11\\Documents\\WorkSpace\\desktop-tutorial\\Console_MM_games\\Maze.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{41D52397-8383-4481-A147-65D2CCB4A06D}|Console_MM_games\\Console_MM_games.vcxproj|solutionrelative:Console_MM_games\\Maze.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{41D52397-8383-4481-A147-65D2CCB4A06D}|Console_MM_games\\Console_MM_games.vcxproj|C:\\Users\\WIN11\\Documents\\WorkSpace\\desktop-tutorial\\Console_MM_games\\MicroMouseApp.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{41D52397-8383-4481-A147-65D2CCB4A06D}|Console_MM_games\\Console_MM_games.vcxproj|solutionrelative:Console_MM_games\\MicroMouseApp.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{41D52397-8383-4481-A147-65D2CCB4A06D}|Console_MM_games\\Console_MM_games.vcxproj|C:\\Users\\WIN11\\Documents\\WorkSpace\\desktop-tutorial\\Console_MM_games\\Maze.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{41D52397-8383-4481-A147-65D2CCB4A06D}|Console_MM_games\\Console_MM_games.vcxproj|solutionrelative:Console_MM_games\\Maze.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{41D52397-8383-4481-A147-65D2CCB4A06D}|Console_MM_games\\Console_MM_games.vcxproj|C:\\Users\\WIN11\\Documents\\WorkSpace\\desktop-tutorial\\Console_MM_games\\Console_MM_games.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{41D52397-8383-4481-A147-65D2CCB4A06D}|Console_MM_games\\Console_MM_games.vcxproj|solutionrelative:Console_MM_games\\Console_MM_games.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{41D52397-8383-4481-A147-65D2CCB4A06D}|Console_MM_games\\Console_MM_games.vcxproj|C:\\Users\\WIN11\\Documents\\WorkSpace\\desktop-tutorial\\Console_MM_games\\MazeTreeDS.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{41D52397-8383-4481-A147-65D2CCB4A06D}|Console_MM_games\\Console_MM_games.vcxproj|solutionrelative:Console_MM_games\\MazeTreeDS.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{41D52397-8383-4481-A147-65D2CCB4A06D}|Console_MM_games\\Console_MM_games.vcxproj|C:\\Users\\WIN11\\Documents\\WorkSpace\\desktop-tutorial\\Console_MM_games\\GridBoxType.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -30,17 +30,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 381,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Console_MM_games.cpp",
               "DocumentMoniker": "C:\\Users\\WIN11\\Documents\\WorkSpace\\desktop-tutorial\\Console_MM_games\\Console_MM_games.cpp",
               "RelativeDocumentMoniker": "Console_MM_games\\Console_MM_games.cpp",
               "ToolTip": "C:\\Users\\WIN11\\Documents\\WorkSpace\\desktop-tutorial\\Console_MM_games\\Console_MM_games.cpp",
               "RelativeToolTip": "Console_MM_games\\Console_MM_games.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-06-14T23:48:05.913Z",
               "IsPinned": true,
@@ -48,13 +48,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "MicroMouseApp.h",
               "DocumentMoniker": "C:\\Users\\WIN11\\Documents\\WorkSpace\\desktop-tutorial\\Console_MM_games\\MicroMouseApp.h",
               "RelativeDocumentMoniker": "Console_MM_games\\MicroMouseApp.h",
               "ToolTip": "C:\\Users\\WIN11\\Documents\\WorkSpace\\desktop-tutorial\\Console_MM_games\\MicroMouseApp.h",
               "RelativeToolTip": "Console_MM_games\\MicroMouseApp.h",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAAB0AAAAkAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAB0AAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2026-06-14T23:56:39.536Z",
               "IsPinned": true,
@@ -62,13 +62,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "Maze.h",
               "DocumentMoniker": "C:\\Users\\WIN11\\Documents\\WorkSpace\\desktop-tutorial\\Console_MM_games\\Maze.h",
               "RelativeDocumentMoniker": "Console_MM_games\\Maze.h",
               "ToolTip": "C:\\Users\\WIN11\\Documents\\WorkSpace\\desktop-tutorial\\Console_MM_games\\Maze.h",
               "RelativeToolTip": "Console_MM_games\\Maze.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEsAAAACAAAAAAAAAA==",
+              "ViewState": "AgIAACcAAAAAAAAAAAAkwFQAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2026-06-14T23:55:27.63Z",
               "IsPinned": true,
@@ -82,13 +82,13 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "MazeTreeDS.h",
               "DocumentMoniker": "C:\\Users\\WIN11\\Documents\\WorkSpace\\desktop-tutorial\\Console_MM_games\\MazeTreeDS.h",
               "RelativeDocumentMoniker": "Console_MM_games\\MazeTreeDS.h",
               "ToolTip": "C:\\Users\\WIN11\\Documents\\WorkSpace\\desktop-tutorial\\Console_MM_games\\MazeTreeDS.h",
               "RelativeToolTip": "Console_MM_games\\MazeTreeDS.h",
-              "ViewState": "AgIAADkAAAAAAAAAAAAAAE8AAAACAAAAAAAAAA==",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABoAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2026-06-15T01:33:20.206Z",
               "EditorCaption": ""
