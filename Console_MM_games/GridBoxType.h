@@ -87,16 +87,43 @@ public:
 	int BlockID;
 	int boxTypeID;
 	bool isStar = false;
+	bool isMouse = false;
 	Node* left;
 	Node* right;
 	Node* top;
 	Node* bottom;
-	Node(int BlockID, int blockTypeID, bool isStar = false, Node* left = nullptr, Node* right = nullptr, Node* top = nullptr, Node* bottom = nullptr) {
+	Node(int BlockID, int blockTypeID, bool isStar = false, bool isMouse = false, Node* left = nullptr, Node* right = nullptr, Node* top = nullptr, Node* bottom = nullptr) {
 		this->BlockID = BlockID;
 		this->boxTypeID = blockTypeID;
 		this->left = left;
 		this->right = right;
 		this->top = top;
 		this->bottom = bottom;
+		if ((blockTypeID & 16) != 0) {
+			this->isStar = true;
+		}
+
+		if ((blockTypeID & 32) != 0) {
+			this->isMouse = true;
+		}
+	}
+
+	void toggleStar() {
+		this->isStar = !this->isStar;           // Flip the boolean
+		this->boxTypeID = this->boxTypeID ^ 16; // Toggle the 16 bit in the ID
+	}
+
+	void toggleMouse() {
+		this->isStar = !this->isStar;           // Flip the boolean
+		this->boxTypeID = this->boxTypeID ^ 32; // Toggle the 16 bit in the ID
 	}
 };
+//How ^ (XOR)magically fixes this
+//
+//The XOR operator ( ^ 16) looks specifically at the 16 switch and simply flips it to the opposite of whatever it currently is.
+//
+//If the star is OFF(10) : 10 ^ 16 acts like addition.It flips the switch ON, resulting in 26.
+//
+//If the star is ON(26) : 26 ^ 16 acts like subtraction.It flips the switch OFF, resulting back in 10.
+//
+//By using ^ 16, you safely "toggle" the star back and forth without ever accidentally breaking your door numbers(the 1, 2, 4, and 8)!

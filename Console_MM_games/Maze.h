@@ -3,7 +3,7 @@
 #include <iostream>
 #include "MazeTreeDS.h"
 #include <vector>
-
+#include <iomanip>
 class Maze
 {
 public:
@@ -25,26 +25,26 @@ public:
 	};
 
     vector<vector<int>> Map1 = {
-    {  6, 10, 12,  6, 12 },
+    {  38, 10, 12,  6, 12 },
     {  3, 12,  7, 13,  5 },
-    {  6, 11, 13,  5,  5 },
+    {  6, 11, 29,  5,  5 },
     {  5,  6, 11,  9,  5 },
     {  3, 11, 10, 10,  9 }
     };
 	//choose map by setting myMap to the map you want to use. Map1 is the default map.
     vector<vector<int>> myMap = Map1;
 
-    //+---+---+---+---+---+
-    //|           |       |
-    //+   +---+   +   +   +
-    //|       |       |   |
-    //+---+   +   +   +   +
-    //|           |   |   |
-    //+   +---+   +   +   +
-    //|   |           |   |
-    //+   +   +---+---+   +
-    //|                   |
-    //+---+---+---+---+---+
+    //  +---+---+---+---+---+
+    //  | ^         |       |
+    //  +   +---+   +   +   +
+    //  |       |       |   |
+    //  +---+   +   +   +   +
+    //  |         * |   |   |
+    //  +   +---+   +   +   +
+    //  |   |           |   |
+    //  +   +   +---+---+   +
+    //  |                   |
+    //  +---+---+---+---+---+
 
 	 // int[] should be turn into GridBoxType Data type 
 	//std::vector<int> PrintMaze(const std::vector<int>& maze)
@@ -68,6 +68,7 @@ public:
 	{
 		// Build the physical pointers automatically when the Maze is created!
 		t.buildGrid(myMap);
+        
 	}
 
 	
@@ -94,7 +95,17 @@ public:
                 if ((cell & 8) == 0) os << "|";
                 else os << " ";
 
-                os << "   "; // 3 spaces for the inside of the room
+                // 2. Draw the inside of the room
+            // Use Bitwise AND to check if the 16 bit is turned on!
+                if ((cell & 32) != 0 ) {
+                    os << " ^ "; // Draw a star in the middle of the room
+                }
+                else if ((cell & 16) != 0) {
+                    os << " * ";
+                }
+                else {
+                    os << "   "; // Draw an empty 3-space floor
+                }
             }
 
             // Print the final Right wall for the very last room in the row
@@ -116,6 +127,27 @@ public:
         os << "+\n"; // The final bottom-right corner
 
         return os;
+    }
+
+
+    void printDebugMap() {
+        std::cout << "--- MAZE DEBUG MAP ---\n";
+
+        // Loop through the rows (y)
+        for (size_t y = 0; y < myMap.size(); ++y) {
+
+            // Loop through the columns (x)
+            for (size_t x = 0; x < myMap[y].size(); ++x) {
+
+                // setw(3) forces every number to take up exactly 3 spaces of width.
+                // This guarantees the columns line up perfectly!
+                std::cout << std::setw(3) << myMap[y][x] << " ";
+            }
+
+            // Drop to the next line at the end of the row
+            std::cout << "\n";
+        }
+        std::cout << "----------------------\n";
     }
 };
 //  1 0 1 0   (This is the room : Decimal 10)

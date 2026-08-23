@@ -26,8 +26,10 @@ public:
 	void createMaze()
 	{
 		Maze MazeThe;
-		std::cout << "Creating maze...\n"	;
+		std::cout << "Creating maze...\n";
 		std::cout << MazeThe << std::endl;
+		std::cout << "Debugging maze...\n";
+		MazeThe.printDebugMap();
 	}
 
 	void solveMaze()
