@@ -80,6 +80,9 @@ Left = 8 |    | Right = 2
 +-  -+
 
 
+add 16 for a star block
+add 32 for mouse position
+
 */
 class Node {
 
@@ -92,7 +95,18 @@ public:
 	Node* right;
 	Node* top;
 	Node* bottom;
-	Node(int BlockID, int blockTypeID, bool isStar = false, bool isMouse = false, Node* left = nullptr, Node* right = nullptr, Node* top = nullptr, Node* bottom = nullptr) {
+
+	Node(int BlockID, 
+		int blockTypeID, 
+		bool isStar = false, 
+		bool isMouse = false, 
+		Node* left = nullptr, 
+		Node* right = nullptr, 
+		Node* top = nullptr, 
+		Node* bottom = nullptr) 
+	
+	
+	{
 		this->BlockID = BlockID;
 		this->boxTypeID = blockTypeID;
 		this->left = left;
@@ -114,8 +128,8 @@ public:
 	}
 
 	void toggleMouse() {
-		this->isStar = !this->isStar;           // Flip the boolean
-		this->boxTypeID = this->boxTypeID ^ 32; // Toggle the 16 bit in the ID
+		this->isMouse = !this->isMouse;           // Flip the boolean
+		this->boxTypeID = this->boxTypeID ^ 32; // Toggle the 32 bit in the ID
 	}
 };
 //How ^ (XOR)magically fixes this

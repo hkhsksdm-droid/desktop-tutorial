@@ -71,16 +71,45 @@ public:
         
 	}
 
-	
+
+    Node* moveRight(Node* currentRoom, std::string& msg) {
+		return t.moveRight(currentRoom, msg);
+    }
+    Node* moveLeft(Node* currentRoom, std::string& msg) {
+		return t.moveLeft(currentRoom, msg);
+    }
+    Node* moveUp(Node* currentRoom, std::string& msg) {
+		return t.moveUp(currentRoom, msg);
+    }
+    Node* moveDown(Node* currentRoom, std::string& msg) {
+		return t.moveDown(currentRoom, msg);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //remember to learn this
+	// << op overload for printing the maze to the console
     friend std::ostream& operator << (std::ostream& os, Maze& maze) {
         // Loop through rows (y)
-        for (size_t y = 0; y < maze.myMap.size(); ++y) {
+        for (size_t y = 0; y < maze.t.grid.size(); ++y) {
 
             // --- 1. PRINT THE TOP WALLS OF THE ENTIRE ROW ---
-            for (size_t x = 0; x < maze.myMap[y].size(); ++x) {
+            for (size_t x = 0; x < maze.t.grid[y].size(); ++x) {
                 os << "+"; // Corner pillar
 
-                int cell = maze.myMap[y][x];
+                int cell = maze.t.grid[y][x]->boxTypeID;
                 // If bit 1 (Top) is 0, draw a wall. Otherwise, leave it open for a path.
                 if ((cell & 1) == 0) os << "---";
                 else os << "   ";
@@ -88,8 +117,8 @@ public:
             os << "+\n"; // Cap off the row with a final corner and drop to the next line
 
             // --- 2. PRINT THE LEFT WALLS AND INSIDE ROOMS ---
-            for (size_t x = 0; x < maze.myMap[y].size(); ++x) {
-                int cell = maze.myMap[y][x];
+            for (size_t x = 0; x < maze.t.grid[y].size(); ++x) {
+                int cell = maze.t.grid[y][x]->boxTypeID;
 
                 // If bit 8 (Left) is 0, draw a wall.
                 if ((cell & 8) == 0) os << "|";
@@ -109,16 +138,16 @@ public:
             }
 
             // Print the final Right wall for the very last room in the row
-            int lastCell = maze.myMap[y].back();
+            int lastCell = maze.t.grid[y].back()->boxTypeID;
             if ((lastCell & 2) == 0) os << "|\n";
             else os << " \n";
         }
 
         // --- 3. PRINT THE VERY BOTTOM FLOOR OF THE MAZE ---
-        size_t lastY = maze.myMap.size() - 1;
-        for (size_t x = 0; x < maze.myMap[lastY].size(); ++x) {
+        size_t lastY = maze.t.grid.size() - 1;
+        for (size_t x = 0; x < maze.t.grid[lastY].size(); ++x) {
             os << "+";
-            int cell = maze.myMap[lastY][x];
+            int cell = maze.t.grid[lastY][x]->boxTypeID;
 
             // If bit 4 (Bottom) is 0, draw a wall.
             if ((cell & 4) == 0) os << "---";
@@ -129,6 +158,11 @@ public:
         return os;
     }
 
+
+    Node* getStartNode() {
+        // Returns the pointer to the top-left room
+        return t.getStartNode();
+    }
 
     void printDebugMap() {
         std::cout << "--- MAZE DEBUG MAP ---\n";
@@ -141,7 +175,7 @@ public:
 
                 // setw(3) forces every number to take up exactly 3 spaces of width.
                 // This guarantees the columns line up perfectly!
-                std::cout << std::setw(3) << myMap[y][x] << " ";
+                std::cout << std::setw(3) << t.grid[y][x]->boxTypeID << " ";
             }
 
             // Drop to the next line at the end of the row
@@ -150,6 +184,7 @@ public:
         std::cout << "----------------------\n";
     }
 };
+//(cell & 8) == 0
 //  1 0 1 0   (This is the room : Decimal 10)
 //& 1 0 0 0   (This is the mask : Decimal 8, checking for the Left door)
 //-------- -

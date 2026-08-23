@@ -6,6 +6,7 @@
 class MicroMouseApp
 {
 public:
+	string msg;
 	MicroMouseApp()
 	{
 		
@@ -16,20 +17,59 @@ public:
 		while (!std::cin.eof())
 		{
 			std::cout << "Micro mouse app running...\n";
-			createMaze();
-			ReadKey();
+			
+			runGameLoop();
+			clearScreen();
+		}
+	}
+
+	void runGameLoop()
+	{	
+		Maze MazeThe;
+		Node* mouseLocation = MazeThe.getStartNode();
+		bool running = true;
+		msg = "";
+
+		while (running) {
+			printMaze(MazeThe);
+			
+			char input = _getch(); // Read a single character instantly
+
+			switch (input) {
+			case 'w':
+				mouseLocation = MazeThe.moveUp(mouseLocation, msg);
+				break;
+
+			case 's':
+				mouseLocation = MazeThe.moveDown(mouseLocation, msg);
+				break;
+
+			case 'a':
+				mouseLocation = MazeThe.moveLeft(mouseLocation, msg);
+				break;
+
+			case 'd':
+				mouseLocation = MazeThe.moveRight(mouseLocation, msg);
+				break;
+
+			case 'q':
+			case 'Q':
+				running = false;
+				break;
+			}
+			clearScreen();
 		}
 	}
 
 
-
-	void createMaze()
+	void printMaze(Maze MazeThe)
 	{
-		Maze MazeThe;
 		std::cout << "Creating maze...\n";
 		std::cout << MazeThe << std::endl;
 		std::cout << "Debugging maze...\n";
 		MazeThe.printDebugMap();
+		std::cout << "Use W/A/S/D to move. Press Q to quit.\n";
+		std::cout << msg;
 	}
 
 	void solveMaze()

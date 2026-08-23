@@ -10,8 +10,8 @@
 	{
 	public:
 
-		Node* root = nullptr;
-		
+	Node* root = nullptr;
+	vector<vector<Node*>> grid;
 
 		void linkHorizontal(Node* leftRoom, Node* rightRoom) {
 			if (leftRoom != nullptr) leftRoom->right = rightRoom;
@@ -28,7 +28,7 @@
 			int cols = blueprint[0].size();
 
 			// 1. Create a 2D vector (Master Grid) to temporarily hold our pointers
-			vector<vector<Node*>> grid(rows, vector<Node*>(cols));
+	grid = vector<vector<Node*>> (rows, vector<Node*>(cols));
 
 			for (int r = 0; r < rows; r++) {
 				for (int c = 0; c < cols; c++) {
@@ -42,7 +42,6 @@
 
 			for (int r = 0; r < rows; r++) {
 				for (int c = 0; c < cols; c++) {
-
 					int currentBox = blueprint[r][c];
 
 					// Link East (Right)
@@ -73,7 +72,80 @@
 		}
 
 
-		
+
+		//MOVEMENT FUNCTIONS
+//=================================================================================================================
+		Node* moveRight(Node* currentRoom, std::string& msg) {
+			// 1. Check if there is actually a door here
+			if (currentRoom->right != nullptr) {
+
+				currentRoom->toggleMouse();        // Erase from old room
+				currentRoom->right->toggleMouse(); // Draw in new room
+
+				msg = "Mouse moved RIGHT!\n";
+
+				return currentRoom->right;         // <-- Hand back the new room!
+			}
+
+			// 2. If it is a wall (nullptr), the mouse doesn't move.
+			msg = "Ouch! You hit a wall.\n";
+			return currentRoom;                    // <-- Hand back the exact same room
+		}
+
+		Node* moveLeft(Node* currentRoom, std::string& msg) {
+			// 1. Check if there is actually a door here
+			if (currentRoom->left != nullptr) {
+
+				currentRoom->toggleMouse();        // Erase from old room
+				currentRoom->left->toggleMouse(); // Draw in new room
+
+				msg = "Mouse moved LEFT!\n";
+
+				return currentRoom->left;         // <-- Hand back the new room!
+			}
+
+			// 2. If it is a wall (nullptr), the mouse doesn't move.
+			msg = "Ouch! You hit a wall.\n";
+			return currentRoom;                    // <-- Hand back the exact same room
+		}
+
+		Node* moveUp(Node* currentRoom, std::string& msg) {
+			// 1. Check if there is actually a door here
+			if (currentRoom->top != nullptr) {
+
+				currentRoom->toggleMouse();        // Erase from old room
+				currentRoom->top->toggleMouse(); // Draw in new room
+
+				msg = "Mouse moved UP!\n";
+
+				return currentRoom->top;         // <-- Hand back the new room!
+			}
+
+			// 2. If it is a wall (nullptr), the mouse doesn't move.
+			msg = "Ouch! You hit a wall.\n";
+			return currentRoom;                    // <-- Hand back the exact same room
+		}
+
+		Node* moveDown(Node* currentRoom, std::string& msg) {
+			// 1. Check if there is actually a door here
+			if (currentRoom->bottom != nullptr) {
+
+				currentRoom->toggleMouse();        // Erase from old room
+				currentRoom->bottom	->toggleMouse(); // Draw in new room
+
+				msg = "Mouse moved DOWN!\n";
+
+				return currentRoom->bottom;         // <-- Hand back the new room!
+			}
+
+			// 2. If it is a wall (nullptr), the mouse doesn't move.
+			msg = "Ouch! You hit a wall.\n";
+			return currentRoom;                    // <-- Hand back the exact same room
+		}
+//=================================================================================================================
+
+
+
 
 		void traversePreOrder(Node* node) {
 			if (node == nullptr) return;
@@ -99,6 +171,10 @@
 				return exists(node->left, BlockID);
 			else
 				return exists(node->right, BlockID);
+		}
+		Node* getStartNode() {
+			// Returns the pointer to the top-left room
+			return root;
 		}
 
 	public:
