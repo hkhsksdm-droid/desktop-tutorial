@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include "GridBoxType.h"
-
+#include <random>
 	using namespace std;
 
 	class MazeTreeDS
@@ -23,7 +23,11 @@
 			if (bottomRoom != nullptr) bottomRoom->top = topRoom;
 		}
 
-		void buildGrid(const vector<vector<int>>& blueprint) {
+	void buildGrid(const vector<vector<int>>& blueprint) {
+		if (blueprint.empty() || blueprint[0].empty()) {
+			std::cout << "CRASH WARNING: Blueprint is empty!" << std::endl;
+			return;
+		}
 			int rows = blueprint.size();
 			int cols = blueprint[0].size();
 
@@ -73,14 +77,22 @@
 
 
 
-		//MOVEMENT FUNCTIONS
+		//MOVEMENT FUNCTIONS also handle costs and direction changes
 //=================================================================================================================
-		Node* moveRight(Node* currentRoom, std::string& msg) {
+		Node* moveRight(Node* currentRoom, std::string& msg, char& mouseFacing, int& totalCost) {
 			// 1. Check if there is actually a door here
 			if (currentRoom->right != nullptr) {
 
 				currentRoom->toggleMouse();        // Erase from old room
 				currentRoom->right->toggleMouse(); // Draw in new room
+
+				if (mouseFacing != ' ' && mouseFacing != 'd') {
+					totalCost += 2;
+				}
+				mouseFacing = 'd'; // Update our physical direction
+
+				// 3. ROOM COST: Add the cost of the new room
+				totalCost += currentRoom->right->cost;
 
 				msg = "Mouse moved RIGHT!\n";
 
@@ -88,16 +100,25 @@
 			}
 
 			// 2. If it is a wall (nullptr), the mouse doesn't move.
+			totalCost += 1; // You hit a wall, pay the tax!
 			msg = "Ouch! You hit a wall.\n";
 			return currentRoom;                    // <-- Hand back the exact same room
 		}
 
-		Node* moveLeft(Node* currentRoom, std::string& msg) {
+		Node* moveLeft(Node* currentRoom, std::string& msg, char& mouseFacing, int& totalCost) {
 			// 1. Check if there is actually a door here
 			if (currentRoom->left != nullptr) {
 
 				currentRoom->toggleMouse();        // Erase from old room
 				currentRoom->left->toggleMouse(); // Draw in new room
+
+				if (mouseFacing != ' ' && mouseFacing != 'a') {
+					totalCost += 2;
+				}
+				mouseFacing = 'a'; // Update our physical direction
+
+				// 3. ROOM COST: Add the cost of the new room
+				totalCost += currentRoom->left->cost;
 
 				msg = "Mouse moved LEFT!\n";
 
@@ -105,16 +126,26 @@
 			}
 
 			// 2. If it is a wall (nullptr), the mouse doesn't move.
+			totalCost += 1; // You hit a wall, pay the tax!
 			msg = "Ouch! You hit a wall.\n";
 			return currentRoom;                    // <-- Hand back the exact same room
 		}
 
-		Node* moveUp(Node* currentRoom, std::string& msg) {
+
+		Node* moveUp(Node* currentRoom, std::string& msg, char& mouseFacing, int& totalCost) {
 			// 1. Check if there is actually a door here
 			if (currentRoom->top != nullptr) {
 
 				currentRoom->toggleMouse();        // Erase from old room
 				currentRoom->top->toggleMouse(); // Draw in new room
+
+				if (mouseFacing != ' ' && mouseFacing != 'w') {
+					totalCost += 2;
+				}
+				mouseFacing = 'w'; // Update our physical direction
+
+				// 3. ROOM COST: Add the cost of the new room
+				totalCost += currentRoom->top->cost;
 
 				msg = "Mouse moved UP!\n";
 
@@ -122,16 +153,25 @@
 			}
 
 			// 2. If it is a wall (nullptr), the mouse doesn't move.
+			totalCost += 1; // You hit a wall, pay the tax!
 			msg = "Ouch! You hit a wall.\n";
 			return currentRoom;                    // <-- Hand back the exact same room
 		}
 
-		Node* moveDown(Node* currentRoom, std::string& msg) {
+		Node* moveDown(Node* currentRoom, std::string& msg, char& mouseFacing, int& totalCost) {
 			// 1. Check if there is actually a door here
 			if (currentRoom->bottom != nullptr) {
 
 				currentRoom->toggleMouse();        // Erase from old room
 				currentRoom->bottom	->toggleMouse(); // Draw in new room
+
+				if (mouseFacing != ' ' && mouseFacing != 's') {
+					totalCost += 2;
+				}
+				mouseFacing = 's'; // Update our physical direction
+
+				// 3. ROOM COST: Add the cost of the new room
+				totalCost += currentRoom->bottom->cost;
 
 				msg = "Mouse moved DOWN!\n";
 
@@ -139,12 +179,20 @@
 			}
 
 			// 2. If it is a wall (nullptr), the mouse doesn't move.
+			totalCost += 1; // You hit a wall, pay the tax!
 			msg = "Ouch! You hit a wall.\n";
 			return currentRoom;                    // <-- Hand back the exact same room
 		}
 //=================================================================================================================
+		
+		void updateCost(Node* mouseLocation, Node* oldLocation, char input, int& totalCost, MazeTreeDS& MazeThe) {
+			
+		}
 
-
+		int getCost(Node* node) {
+			if (node == nullptr) return -1; // or throw an exception
+			return node->getCost();
+		}
 
 
 		void traversePreOrder(Node* node) {
@@ -176,6 +224,162 @@
 			// Returns the pointer to the top-left room
 			return root;
 		}
+
+
+		//meme
+		Node* buildBigMaze() {
+			const int ROWS = 10;
+			const int COLS = 10;
+
+			int layout[ROWS][COLS] = {
+				{ 0, 1, 1, 2, 1, 1, 1, 1, 1, 1 },
+				{ 2, 2, 1, 2, 1, 2, 2, 2, 2, 1 },
+				{ 1, 1, 1, 1, 1, 1, 1, 1, 2, 1 },
+				{ 1, 2, 2, 2, 2, 2, 2, 1, 2, 1 },
+				{ 1, 1, 1, 1, 1, 2, 1, 1, 1, 1 },
+				{ 2, 2, 2, 2, 1, 2, 1, 2, 2, 2 },
+				{ 1, 1, 1, 1, 1, 2, 1, 1, 1, 1 },
+				{ 1, 2, 2, 2, 2, 2, 2, 2, 2, 1 },
+				{ 1, 1, 1, 1, 1, 1, 1, 1, 2, 1 },
+				{ 2, 2, 2, 2, 2, 2, 2, 1, 1, 3 }
+			};
+
+			// 1. Resize the class member 'grid' properly!
+			grid = vector<vector<Node*>>(ROWS, vector<Node*>(COLS, nullptr));
+			int blockCounter = 1;
+
+			// 2. FIRST PASS: Create the rooms and put them into the member grid
+			for (int r = 0; r < ROWS; r++) {
+				for (int c = 0; c < COLS; c++) {
+					if (layout[r][c] == 2) {
+						grid[r][c] = nullptr; // Wall
+					}
+					else {
+						grid[r][c] = new Node(blockCounter, 1);
+						grid[r][c]->BlockID = blockCounter++;
+						grid[r][c]->cost = 5;
+
+						if (layout[r][c] == 0) {
+							grid[r][c]->isMouse = true;
+							root = grid[r][c];
+						}
+						if (layout[r][c] == 3) {
+							grid[r][c]->isStar = true;
+						}
+					}
+				}
+			}
+
+			// 3. SECOND PASS: Link the doors using the member grid
+			for (int r = 0; r < ROWS; r++) {
+				for (int c = 0; c < COLS; c++) {
+					if (grid[r][c] != nullptr) {
+						if (r > 0 && grid[r - 1][c] != nullptr) grid[r][c]->top = grid[r - 1][c];
+						if (r < ROWS - 1 && grid[r + 1][c] != nullptr) grid[r][c]->bottom = grid[r + 1][c];
+						if (c > 0 && grid[r][c - 1] != nullptr) grid[r][c]->left = grid[r][c - 1];
+						if (c < COLS - 1 && grid[r][c + 1] != nullptr) grid[r][c]->right = grid[r][c + 1];
+					}
+				}
+			}
+			return root;
+		}
+
+		Node* buildDynamicMaze(int rows, int cols) {
+			std::random_device rd;
+			std::mt19937 gen(rd());
+			std::uniform_int_distribution<> distrib(0, 15);
+
+			// 1. Initialize map with basic random walls/doors
+			std::vector<std::vector<int>> newMap(rows, std::vector<int>(cols, 0));
+
+			for (int r = 0; r < rows; r++) {
+				for (int c = 0; c < cols; c++) {
+					int mask = distrib(gen);
+
+					// Clean up borders
+					if (r == 0) mask &= ~1;
+					if (c == cols - 1) mask &= ~2;
+					if (r == rows - 1) mask &= ~4;
+					if (c == 0) mask &= ~8;
+
+					newMap[r][c] = mask;
+				}
+			}
+
+			// 2. GUARANTEED PATH CARVING
+			int currR = 0;
+			int currC = 0;
+			while (currR < rows - 1 || currC < cols - 1) {
+				if (currR < rows - 1 && (currC == cols - 1 || distrib(gen) % 2 == 0)) {
+					newMap[currR][currC] |= 4;
+					newMap[currR + 1][currC] |= 1;
+					currR++;
+				}
+				else if (currC < cols - 1) {
+					newMap[currR][currC] |= 2;
+					newMap[currR][currC + 1] |= 8;
+					currC++;
+				}
+			}
+
+			// 3. SPECIAL BLOCKS: Place the Star at the bottom-right corner (Bit 32)
+			// Add a mouse flag or starting bit to the top-left cell [0][0] 
+			// (Using bit 16 or 32 depending on how your Node constructor checks the mouse flag)
+			newMap[0][0] |= 16;
+
+			// Place the Star at the bottom-right corner (Bit 32)
+			newMap[rows - 1][cols - 1] |= 32;
+
+			// 4. Build the grid using your engine
+			buildGrid(newMap);
+
+			// 5. Explicitly flag the Mouse (Start) and Star (Finish) nodes
+			if (root != nullptr) {
+				root->isStar = true;       // Top-left is now the star
+				root->isMouse = false;
+				root->boxTypeID |= 16;
+			}
+
+			if (!grid.empty() && !grid.back().empty()) {
+				Node* bottomTheRight = grid.back().back();
+				if (bottomTheRight != nullptr) {
+					bottomTheRight->isStar = true;
+					bottomTheRight->boxTypeID |= 32;
+				}
+			}
+
+			return root;
+		}
+
+		//Node* buildDynamicMaze(int rows, int cols) {
+		//	// 1. Generate the open map blueprint
+		//	std::vector<std::vector<int>> newMap(rows, std::vector<int>(cols, 15));
+
+		//	for (int r = 0; r < rows; r++) {
+		//		for (int c = 0; c < cols; c++) {
+		//			int mask = 0;
+		//			if (r > 0) mask |= 1;           // Open Top
+		//			if (c < cols - 1) mask |= 2;    // Open Right
+		//			if (r < rows - 1) mask |= 4;    // Open Bottom
+		//			if (c > 0) mask |= 8;           // Open Left
+
+		//			newMap[r][c] = mask;
+		//		}
+		//	}
+
+		//	buildGrid(newMap);
+		//	return root;
+		//}
+
+
+		std::string toStringNodeObject(Node* node) {
+			return node->toString();
+		}
+
+
+
+
+
 
 	public:
 		

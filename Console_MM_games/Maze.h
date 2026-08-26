@@ -31,6 +31,8 @@ public:
     {  5,  6, 11,  9,  5 },
     {  3, 11, 10, 10,  9 }
     };
+
+
 	//choose map by setting myMap to the map you want to use. Map1 is the default map.
     vector<vector<int>> myMap = Map1;
 
@@ -46,54 +48,58 @@ public:
     //  |                   |
     //  +---+---+---+---+---+
 
-	 // int[] should be turn into GridBoxType Data type 
-	//std::vector<int> PrintMaze(const std::vector<int>& maze)
-	//{
-	//	std::vector<int> result;
-
-	//	for (auto n : maze)
-	//	{
-	//		// 1. Print the current number
-	//		std::cout << n << " ";
-
-	//		// 2. Add it to our return vector (if you need to pass data back)
-	//		result.push_back(n);
-	//	}
-	//	std::cout << std::endl;
-
-	//	return result; // Matches the vector<int> return type
-	//};
-
 	Maze()
 	{
 		// Build the physical pointers automatically when the Maze is created!
+        myMap = Map1;
 		t.buildGrid(myMap);
         
 	}
 
-
-    Node* moveRight(Node* currentRoom, std::string& msg) {
-		return t.moveRight(currentRoom, msg);
+    Node* buildBigMaze() {
+         return t.buildBigMaze();
     }
-    Node* moveLeft(Node* currentRoom, std::string& msg) {
-		return t.moveLeft(currentRoom, msg);
-    }
-    Node* moveUp(Node* currentRoom, std::string& msg) {
-		return t.moveUp(currentRoom, msg);
-    }
-    Node* moveDown(Node* currentRoom, std::string& msg) {
-		return t.moveDown(currentRoom, msg);
+    Node* buildDynamicMaze(int rows, int cols) {
+         return t.buildDynamicMaze(rows, cols);
     }
 
+    Node* setMaze(vector<vector<int>>& newMap) {
+        myMap = newMap;           // 1. Save the new map blueprint
+        t.buildGrid(myMap);       // 2. Build the physical node grid using the new map
+        return t.getStartNode();  // 3. Return the start node for the mouse   
+    }
+
+    Node* getStartNode() {
+        // Make sure this is returning the engine's startNode!
+        return t.getStartNode();
+    }
+
+    Node* moveRight(Node* currentRoom, std::string& msg, char& mouseFacing, int& totalCost) {
+		return t.moveRight(currentRoom, msg, mouseFacing, totalCost);
+    }
+    Node* moveLeft(Node* currentRoom, std::string& msg, char& mouseFacing, int& totalCost) {
+		return t.moveLeft(currentRoom, msg, mouseFacing, totalCost);
+    }
+    Node* moveUp(Node* currentRoom, std::string& msg, char& mouseFacing, int& totalCost) {
+		return t.moveUp(currentRoom, msg, mouseFacing, totalCost);
+    }
+    Node* moveDown(Node* currentRoom, std::string& msg, char& mouseFacing, int& totalCost) {
+		return t.moveDown(currentRoom, msg, mouseFacing, totalCost);
+    }
+
+
+
+    int getCost(Node* currentRoom) {
+		return t.getCost(currentRoom);
+    }
 
 
 
 
 
-
-
-
-
+    std::string toStringNodeObject(Node* node) {
+        return t.toStringNodeObject(node);
+    }
 
 
 
@@ -102,56 +108,68 @@ public:
     //remember to learn this
 	// << op overload for printing the maze to the console
     friend std::ostream& operator << (std::ostream& os, Maze& maze) {
-        // Loop through rows (y)
         for (size_t y = 0; y < maze.t.grid.size(); ++y) {
 
-            // --- 1. PRINT THE TOP WALLS OF THE ENTIRE ROW ---
+            // --- 1. PRINT TOP WALLS ---
             for (size_t x = 0; x < maze.t.grid[y].size(); ++x) {
-                os << "+"; // Corner pillar
+                os << "+";
+                Node* current = maze.t.grid[y][x];
 
-                int cell = maze.t.grid[y][x]->boxTypeID;
-                // If bit 1 (Top) is 0, draw a wall. Otherwise, leave it open for a path.
-                if ((cell & 1) == 0) os << "---";
-                else os << "   ";
-            }
-            os << "+\n"; // Cap off the row with a final corner and drop to the next line
-
-            // --- 2. PRINT THE LEFT WALLS AND INSIDE ROOMS ---
-            for (size_t x = 0; x < maze.t.grid[y].size(); ++x) {
-                int cell = maze.t.grid[y][x]->boxTypeID;
-
-                // If bit 8 (Left) is 0, draw a wall.
-                if ((cell & 8) == 0) os << "|";
-                else os << " ";
-
-                // 2. Draw the inside of the room
-            // Use Bitwise AND to check if the 16 bit is turned on!
-                if ((cell & 32) != 0 ) {
-                    os << " ^ "; // Draw a star in the middle of the room
-                }
-                else if ((cell & 16) != 0) {
-                    os << " * ";
+                // If it's a nullptr (wall), treat it as a solid block
+                if (current == nullptr) {
+                    os << "---";
                 }
                 else {
-                    os << "   "; // Draw an empty 3-space floor
+                    int cell = current->boxTypeID;
+                    if ((cell & 1) == 0) os << "---";
+                    else os << "   ";
                 }
             }
+            os << "+\n";
 
-            // Print the final Right wall for the very last room in the row
-            int lastCell = maze.t.grid[y].back()->boxTypeID;
-            if ((lastCell & 2) == 0) os << "|\n";
-            else os << " \n";
+            // --- 2. PRINT LEFT WALLS AND ROOMS ---
+            for (size_t x = 0; x < maze.t.grid[y].size(); ++x) {
+                Node* current = maze.t.grid[y][x];
+
+                if (current == nullptr) {
+                    os << "|###"; // Solid wall interior representation
+                }
+                else {
+                    int cell = current->boxTypeID;
+                    if ((cell & 8) == 0) os << "|";
+                    else os << " ";
+
+                    // Check the explicit engine flags instead of raw bitmasks
+                    if (current->isStar) {
+                        os << " ^ "; // Print star/finish
+                    }
+                    else if (current->isMouse) {
+                        os << " * "; // Print mouse start
+                    }
+                    else {
+                        os << "   ";
+                    }
+                }
+            }
+            os << "|\n";
         }
 
         // --- 3. PRINT THE VERY BOTTOM FLOOR OF THE MAZE ---
         size_t lastY = maze.t.grid.size() - 1;
         for (size_t x = 0; x < maze.t.grid[lastY].size(); ++x) {
             os << "+";
-            int cell = maze.t.grid[lastY][x]->boxTypeID;
+            Node* current = maze.t.grid[lastY][x];
 
-            // If bit 4 (Bottom) is 0, draw a wall.
-            if ((cell & 4) == 0) os << "---";
-            else os << "   ";
+            // If it's a nullptr (wall), print a solid bottom floor
+            if (current == nullptr) {
+                os << "---";
+            }
+            else {
+                int cell = current->boxTypeID;
+                // If bit 4 (Bottom) is 0, draw a wall.
+                if ((cell & 4) == 0) os << "---";
+                else os << "   ";
+            }
         }
         os << "+\n"; // The final bottom-right corner
 
@@ -159,26 +177,21 @@ public:
     }
 
 
-    Node* getStartNode() {
-        // Returns the pointer to the top-left room
-        return t.getStartNode();
-    }
-
     void printDebugMap() {
         std::cout << "--- MAZE DEBUG MAP ---\n";
 
-        // Loop through the rows (y)
-        for (size_t y = 0; y < myMap.size(); ++y) {
+        // Loop through the engine's actual grid dimensions!
+        for (size_t y = 0; y < t.grid.size(); ++y) {
+            for (size_t x = 0; x < t.grid[y].size(); ++x) {
 
-            // Loop through the columns (x)
-            for (size_t x = 0; x < myMap[y].size(); ++x) {
-
-                // setw(3) forces every number to take up exactly 3 spaces of width.
-                // This guarantees the columns line up perfectly!
-                std::cout << std::setw(3) << t.grid[y][x]->boxTypeID << " ";
+                // Safely check if the node exists before printing its ID
+                if (t.grid[y][x] == nullptr) {
+                    std::cout << std::setw(3) << "X" << " "; // Print 'X' for walls
+                }
+                else {
+                    std::cout << std::setw(3) << t.grid[y][x]->boxTypeID << " ";
+                }
             }
-
-            // Drop to the next line at the end of the row
             std::cout << "\n";
         }
         std::cout << "----------------------\n";

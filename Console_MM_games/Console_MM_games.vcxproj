@@ -144,12 +144,14 @@
     <ClCompile Include="Maze.cpp" />
     <ClCompile Include="MazeTreeDS.cpp" />
     <ClCompile Include="MicroMouseApp.cpp" />
+    <ClCompile Include="Mouse.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GridBoxType.h" />
     <ClInclude Include="Maze.h" />
     <ClInclude Include="MazeTreeDS.h" />
     <ClInclude Include="MicroMouseApp.h" />
+    <ClInclude Include="Mouse.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />

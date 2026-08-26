@@ -89,17 +89,22 @@ class Node {
 public:
 	int BlockID;
 	int boxTypeID;
+	int cost;
 	bool isStar = false;
 	bool isMouse = false;
+	bool visited = false;
 	Node* left;
 	Node* right;
 	Node* top;
 	Node* bottom;
 
-	Node(int BlockID, 
+	Node(
+		int BlockID, 
 		int blockTypeID, 
+		int cost = 5,
 		bool isStar = false, 
 		bool isMouse = false, 
+		bool visited = false,
 		Node* left = nullptr, 
 		Node* right = nullptr, 
 		Node* top = nullptr, 
@@ -109,10 +114,18 @@ public:
 	{
 		this->BlockID = BlockID;
 		this->boxTypeID = blockTypeID;
+		this->cost = cost;
+		this->isStar = isStar;       
+		this->isMouse = isMouse;    
+		this->visited = visited;
+		this->BlockID = blockTypeID & 15;
 		this->left = left;
 		this->right = right;
 		this->top = top;
 		this->bottom = bottom;
+		
+
+
 		if ((blockTypeID & 16) != 0) {
 			this->isStar = true;
 		}
@@ -120,6 +133,24 @@ public:
 		if ((blockTypeID & 32) != 0) {
 			this->isMouse = true;
 		}
+
+		int baseRoomType = blockTypeID & 15;
+
+		if (baseRoomType == 3 || 
+			baseRoomType == 6 || 
+			baseRoomType == 9 || 
+			baseRoomType == 12) {
+
+			this->cost = 7; // FIXED: Overwrite the class variable, don't create a new 'int'
+		}
+
+		if (this->BlockID == 0) { //starting block cost 0 to move out of
+			this->cost = 0; // Set this to 0, 1, or whatever you prefer!
+		}
+	}
+
+	int getCost() {
+		return this->cost;
 	}
 
 	void toggleStar() {
@@ -131,6 +162,19 @@ public:
 		this->isMouse = !this->isMouse;           // Flip the boolean
 		this->boxTypeID = this->boxTypeID ^ 32; // Toggle the 32 bit in the ID
 	}
+
+	std::string toString() const{
+		std::string info = 
+			"Node ID: " + std::to_string(BlockID) +
+			" | BoxType: " + std::to_string(boxTypeID) +
+			" | Mouse: " + (isMouse ? "Yes" : "No") +
+			" | Star: " + (isStar ? "Yes" : "No");
+			" | Cost: " + std::to_string(cost) +
+			" | Visited: " + (visited ? "Yes" : "No");
+			
+		return info;
+
+		}
 };
 //How ^ (XOR)magically fixes this
 //
